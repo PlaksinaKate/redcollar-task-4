@@ -8,7 +8,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const cleancss = require('gulp-clean-css');
 
-const newer = require('gulp-newer');
 const fileinclude = require('gulp-file-include');
 const del = require('del');
 
@@ -103,7 +102,6 @@ function startwatch () {
 	watch( path.src.css, styles );
 	//watch( path.src.html).on('change', browserSync.reload );
 	watch( path.src.html, html );
-	watch( path.src.img, images );
 	watch( path.src.fonts, fonts );
 }
 
@@ -112,7 +110,6 @@ exports.cleandist = cleandist;
 exports.html = html;
 exports.scripts = scripts;
 exports.styles = styles;
-exports.images = images;
 exports.fonts = fonts;
 
 exports.build = series(
