@@ -1,6 +1,5 @@
 import { URL, lIMIT_POST_COUNT } from './contst.min.js'
 const { POSTS, USERS } = URL
-
 export let slipPosts = 0
 
 export async function getPosts() {

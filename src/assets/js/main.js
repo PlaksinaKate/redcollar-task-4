@@ -4,13 +4,14 @@ import { POSTS_LIST } from './contst.min.js'
 
 async function posts() {
   const posts = await getPosts()
-  const postsContainer = document.getElementsByClassName(POSTS_LIST)[0];
+  if (slipPosts !== posts.total) {
+    const postsContainer = document.getElementsByClassName(POSTS_LIST)[0];
 
-  posts.posts.forEach(async (item) => {
-    const { title, body, reactions, tags, userId } = item;
-    const userName = await getUserName(userId);
+    posts.posts.forEach(async (item) => {
+      const { title, body, reactions, tags, userId } = item;
+      const userName = await getUserName(userId);
 
-    let htmlPost = `
+      let htmlPost = `
                       <div class="posts__item">
                         <div class="posts__item-tags row">${getTags(tags)}</div>
                         <h2 class="posts__item-title">${title}</h2>
@@ -24,9 +25,9 @@ async function posts() {
                         </div>
                     </div>`;
 
-    postsContainer.innerHTML += htmlPost;
-  });
-
+      postsContainer.innerHTML += htmlPost;
+    });
+  }
 }
 
 function getTags(tags) {
@@ -49,7 +50,7 @@ async function getUserName(userId) {
 }
 
 const options = {
-  root: document.querySelector('posts__list'),
+  root: document.querySelector(POSTS_LIST),
   rootMargin: '10px',
   threshold: 0.25
 }

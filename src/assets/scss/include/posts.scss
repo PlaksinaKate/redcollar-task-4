@@ -2,28 +2,28 @@
 @import '../_mixins.scss';
 
 .posts {
-  padding: 152px 0 160px;
+  padding: 9.5rem 0 6.25rem;
 }
 
 .posts__title {
-  margin-bottom: 60px;
+  margin-bottom: 3.75rem;
 }
 
 .posts__item {
-  padding: 40px;
+  padding: 2.5rem;
   background-color: $black;
-  border-radius: 32px;
-  margin-bottom: 50px;
+  border-radius: 2rem;
+  margin-bottom: 3.125rem;
 }
 
 .posts__item-tags {
-margin-bottom: 30px; 
+  margin-bottom: 1.875rem;
 }
 
 .posts__item-tag {
-  border-radius: 16px;
+  border-radius: 1rem;
   border: .0625rem solid $purple;
-  font-size: 12px;
+  font-size: .75rem;
   font-style: normal;
   font-weight: 400;
   line-height: 1.58;
@@ -34,11 +34,11 @@ margin-bottom: 30px;
 }
 
 .posts__item-title {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .posts__item-text {
-  max-width: 1100px;
+  max-width: 68.75rem;
   width: 100%;
   margin-bottom: 40px;
   opacity: 0.7;
@@ -46,7 +46,7 @@ margin-bottom: 30px;
 
 .posts__item-author {
   font-weight: 300;
-  font-size: 14px;
+  font-size: .875rem;
   line-height: 1;
 }
 
@@ -64,10 +64,10 @@ margin-bottom: 30px;
 
 .posts__item-reactions-number {
   font-weight: 300;
-  font-size: 14px;
+  font-size: .875rem;
   line-height: 1;
   color: $purple;
-  margin-left: 10px;
+  margin-left: .625rem;
 }
 
 .loading {
