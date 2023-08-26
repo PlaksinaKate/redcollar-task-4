@@ -8,6 +8,13 @@ const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const cleancss = require('gulp-clean-css');
 
+const imagemin = require('gulp-imagemin');
+const imageminGifsicle = require('imagemin-gifsicle');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminSvgo = require('imagemin-svgo');
+const imageminOptipng = require('imagemin-optipng');
+
+const newer = require('gulp-newer');
 const fileinclude = require('gulp-file-include');
 const del = require('del');
 
@@ -16,6 +23,7 @@ const path = {
 		html:		"build/",
 		js:			"build/assets/js/",
 		css:		"build/assets/css/",
+		img:		"build/assets/img/",
 		fonts: 	"build/assets/fonts/"
 	},
 	src: {
@@ -23,6 +31,7 @@ const path = {
 		html: 	"src/**/*.{html,htm}",
 		js: 		"src/assets/js/**/*.js",
 		css: 		"src/assets/scss/**/*.scss",
+		img: 		"src/assets/img/**/**/**/*.{jpg,png,svg,gif,ico,webmanifest,xml}",
 		fonts: 	"src/assets/fonts/**/*.{eot,ttf,woff,woff2,svg,otf}"
 	},
 	clean: 		"./build"
@@ -93,6 +102,20 @@ function styles () {
 	.pipe( browserSync.stream() )
 }
 
+function images () {
+	return src( path.src.img )
+	.pipe( newer( path.build.img ) )
+	.pipe( imagemin([
+		imageminGifsicle({ interlaced: true }),
+		imageminMozjpeg({ quality: 75, progressive: true }),
+		imageminSvgo(),
+		imageminOptipng({ optimizationLevel: 1 })
+	], {
+		verbose: true
+	} ) ) 
+	.pipe( dest( path.build.img ) )
+}
+
 function cleandist () {
 	return del( path.build.html, { force: true } )
 }
@@ -102,6 +125,7 @@ function startwatch () {
 	watch( path.src.css, styles );
 	//watch( path.src.html).on('change', browserSync.reload );
 	watch( path.src.html, html );
+	watch( path.src.img, images );
 	watch( path.src.fonts, fonts );
 }
 
@@ -110,6 +134,7 @@ exports.cleandist = cleandist;
 exports.html = html;
 exports.scripts = scripts;
 exports.styles = styles;
+exports.images = images;
 exports.fonts = fonts;
 
 exports.build = series(
@@ -118,6 +143,7 @@ exports.build = series(
 		html, 
 		styles, 
 		scripts, 
+		images,
 		fonts
 	)
 );
@@ -129,6 +155,7 @@ exports.default = series(
 		html, 
 		styles, 
 		scripts, 
+		images,
 		fonts
 	), 
 	parallel(
