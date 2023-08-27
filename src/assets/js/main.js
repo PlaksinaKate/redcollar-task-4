@@ -1,17 +1,15 @@
-import { getPosts, getUser, slipPosts } from './api.min.js'
+import { getPosts, getUser, slipPosts, postsTotalLenth } from './api.min.js'
 import { POSTS_LIST } from './contst.min.js'
 const postsContainer = document.getElementsByClassName(POSTS_LIST)[0];
 
 async function posts() {
   const posts = await getPosts()
-  if (slipPosts !== posts.total) {
 
-    posts.posts.forEach(async (item) => {
-      const { userId } = item
-      const userName = await getUserName(userId);
-      setPostHTML(item, userName)
-    });
-  }
+  posts.posts.forEach(async (item) => {
+    const { userId } = item
+    const userName = await getUserName(userId);
+    setPostHTML(item, userName)
+  });
 }
 
 function setPostHTML(item, userName) {
@@ -69,3 +67,11 @@ async function handleIntersect(entries, observer) {
 const observer = new IntersectionObserver(handleIntersect, options);
 const triggerBtn = document.getElementsByClassName('loading')[0]
 observer.observe(triggerBtn);
+
+setInterval(() => {
+  if (postsTotalLenth <= slipPosts) {
+    triggerBtn.classList.add('hidden')
+    observer.disconnect();
+    clearInterval()
+  }
+}, 5000)
