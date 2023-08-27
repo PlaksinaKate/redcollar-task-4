@@ -1,19 +1,25 @@
 import { getPosts, getUser, slipPosts } from './api.min.js'
 import { POSTS_LIST } from './contst.min.js'
-
+const postsContainer = document.getElementsByClassName(POSTS_LIST)[0];
 
 async function posts() {
   const posts = await getPosts()
   if (slipPosts !== posts.total) {
-    const postsContainer = document.getElementsByClassName(POSTS_LIST)[0];
 
     posts.posts.forEach(async (item) => {
-      const { title, body, reactions, tags, userId } = item;
+      const { userId } = item
       const userName = await getUserName(userId);
+      setPostHTML(item, userName)
+    });
+  }
+}
 
-      let htmlPost = `
-                      <div class="posts__item">
-                        <div class="posts__item-tags row">${getTags(tags)}</div>
+function setPostHTML(item, userName) {
+  const { title, body, reactions, tags } = item;
+
+  const newDiv = document.createElement('div')
+  newDiv.classList.add('posts__item')
+  newDiv.innerHTML = `<div class="posts__item-tags row">${getTags(tags)}</div>
                         <h2 class="posts__item-title">${title}</h2>
                         <div class="posts__item-text">${body}</div>
                         <div class="row space-between">
@@ -22,12 +28,9 @@ async function posts() {
                             <div class="posts__item-reactions-number">${reactions}</div>
                           </div>
                           <div class="posts__item-author">${userName}</div>
-                        </div>
-                    </div>`;
+                        </div>`
 
-      postsContainer.innerHTML += htmlPost;
-    });
-  }
+  postsContainer.appendChild(newDiv)
 }
 
 function getTags(tags) {
